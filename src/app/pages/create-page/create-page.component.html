@@ -1,0 +1,79 @@
+<p class="formlabel">Please Fill Up Your Details</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="detail-form">
+    
+    <label class="formlabel">Name:</label>
+    <input 
+    type = "text" 
+    name="name" 
+    formControlName="name" 
+    placeholder="Enter your Name" 
+     />
+    
+    <span class="error-msg" *ngIf="(showErrors && form.get('name')?.errors?.['required'])"> *Name is Required</span>
+    <span class="error-msg" *ngIf="(showErrors && form.hasError('minlength','name'))"> Name is too short</span><br/><br/>
+
+    <label class="formlabel">Email:</label>
+    <input 
+    type = "text" 
+    name="email" 
+    formControlName="email" 
+    placeholder="Enter your Email"
+     />
+    
+    <span class="error-msg" *ngIf="(showErrors && form.get('email')?.errors?.['required'] )"> *Email is Required</span>
+    <span class="error-msg" *ngIf="(showErrors && form.hasError('pattern', 'email'))"> You have entered an invalid E-mail Address</span><br/><br/>
+
+    <label class="formlabel">Phone No:</label>
+    <input 
+    type = "number" 
+    name="phone" 
+    formControlName="phone" 
+    placeholder="Enter your Phone Number"
+     />
+    
+    <span class="error-msg" *ngIf="(showErrors && form.get('phone')?.errors?.['required'])"> *Phone Number is Required</span>
+    <span class="error-msg" *ngIf="(showErrors && form.hasError('pattern', 'phone'))"> Phone Number should be 10 digit</span>
+    <br/><br/>
+    
+    <label class="formlabel">Country</label>
+    <select 
+    name="country" 
+    formControlName="country" [(ngModel)]="country"
+    >
+    <option value="">Select your Country</option>
+    <option *ngFor="let country of Countries"  [value]="country.name">
+        {{country.name}}
+    </option> 
+    </select>
+    
+    <span class="error-msg" *ngIf="showErrors && form.get('country')?.errors?.['required']"> *Country is Required</span><br/><br/>
+    
+    <div>
+    <label class="formlabel">Select Your Gender</label>
+    <input 
+    type = "radio" 
+    name="gender"  value="Male" 
+    formControlName="gender"/>
+    <label>Male</label>
+    <input 
+    type = "radio" 
+    name="gender" value="Female" 
+    formControlName="gender"/>
+    <label>Female</label>
+    </div>
+    <span class="error-msg" *ngIf="showErrors && form.get('gender')?.errors?.['required']"> *Gender is Required</span><br/><br/>
+    
+    <label class="formlabel">Select Your Language</label>
+    
+        <div *ngFor="let item of Languages">
+          <input type="checkbox" [value]="item.name" (change)="onSelectLanguage($event)">{{item.name}}
+        </div>
+    
+        <span  *ngIf="showErrors && form.get('selectedLanguage')?.errors?.['required']"> *Languages is Required</span>
+
+    <br><br>
+
+    <a  href = "#" [routerLink]="['/post/', 'list']"><button class="cancel-button" type="button">Cancel</button></a>
+    
+    <button class="submit-button" [disabled]="(showErrors && !form.valid)" type="submit">Submit</button>
+</form>
